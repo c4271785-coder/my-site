@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ArcadeHub - browser games and gaming community">
+<title>ArcadeHub</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #080d1b;
+  color: white;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(12, 19, 39, 0.96);
+  border-bottom: 1px solid #263456;
+  backdrop-filter: blur(10px);
+}
+
+.navbar {
+  max-width: 1200px;
+  margin: auto;
+  min-height: 70px;
+  padding: 0 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 900;
+  color: #6ee7ff;
+}
+
+.logo span {
+  color: #a78bfa;
+}
+
+nav {
+  display: flex;
+  gap: 8px;
+}
+
+nav button {
+  border: 0;
+  background: transparent;
+  color: #aab5cc;
+  padding: 10px 13px;
+  border-radius: 10px;
+}
+
+nav button:hover,
+nav button.active {
+  background: #182440;
+  color: #6ee7ff;
+}
+
+main {
+  width: 100%;
+}
+
+.page {
+  display: none;
+  max-width: 1200px;
+  margin: auto;
+  padding: 50px 25px;
+}
+
+.page.active {
+  display: block;
+}
+
+.hero {
+  min-height: 620px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(45px, 9vw, 85px);
+  line-height: 1;
+  margin-bottom: 22px;
+}
+
+.hero h1 span {
+  color: #6ee7ff;
+}
+
+.hero p {
+  max-width: 700px;
+  color: #94a3b8;
+  font-size: 19px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.btn {
+  border: 0;
+  border-radius: 12px;
+  padding: 13px 20px;
+  background: #6ee7ff;
+  color: #07111c;
+  font-weight: 800;
+  transition: .2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.btn.secondary {
+  background: #202b49;
+  color: white;
+  margin-left: 8px;
+}
+
+h2 {
+  font-size: 38px;
+  margin-bottom: 8px;
+}
+
+.sub {
+  color: #94a3b8;
+  margin-bottom: 25px;
+}
+
+.search {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 22px;
+  border-radius: 12px;
+  border: 1px solid #2c3a5c;
+  background: #10182c;
+  color: white;
+  outline: none;
+}
+
+.search:focus,
+input:focus {
+  border-color: #6ee7ff;
+}
+
+.games {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.card {
+  background: #111a30;
+  border: 1px solid #263456;
+  border-radius: 18px;
+  padding: 22px;
+  transition: .2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #6ee7ff;
+  box-shadow: 0 10px 35px rgba(0,0,0,.25);
+}
+
+.icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.card h3 {
+  margin-bottom: 8px;
+}
+
+.card p {
+  color: #94a3b8;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+
+.gamebox {
+  background: #070b16;
+  border: 1px solid #293653;
+  border-radius: 18px;
+  padding: 30px;
+  text-align: center;
+  margin-top: 25px;
+}
+
+.gamebox h3 {
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+
+.gamebox p {
+  color: #94a3b8;
+  margin-bottom: 15px;
+}
+
+.form {
+  max-width: 680px;
+  background: #111a30;
+  border: 1px solid #263456;
+  padding: 28px;
+  border-radius: 18px;
+}
+
+.form h3 {
+  font-size: 25px;
+  margin-bottom: 8px;
+}
+
+.form-description {
+  color: #94a3b8;
+  margin-bottom: 22px;
+  line-height: 1.5;
+}
+
+.form label {
+  display: block;
+  margin-bottom: 7px;
+  color: #cbd5e1;
+}
+
+.form input[type="text"],
+.form input[type="url"],
+.form input[type="email"] {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 17px;
+  border-radius: 10px;
+  border: 1px solid #334264;
+  background: #0b1020;
+  color: white;
+  outline: none;
+}
+
+.checkbox {
+  display: flex !important;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 18px;
+}
+
+.checkbox input {
+  width: 18px;
+  height: 18px;
+}
+
+.status {
+  margin-top: 16px;
+  color: #6ee7ff;
+  min-height: 20px;
+}
+
+.partners {
+  display: grid;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.partner {
+  background: #111a30;
+  border: 1px solid #263456;
+  padding: 17px;
+  border-radius: 12px;
+}
+
+.partner a {
+  color: #6ee7ff;
+  word-break: break-all;
+}
+
+.pending {
+  color: #fbbf24;
+  font-size: 12px;
+}
+
+footer {
+  text-align: center;
+  color: #64748b;
+  padding: 35px 20px;
+  border-top: 1px solid #18233c;
+}
+
+.score {
+  font-size: 50px;
+  font-weight: 900;
+  margin: 15px;
+}
+
+.big-game-button {
+  width: 180px;
+  height: 90px;
+  font-size: 22px;
+  border: 0;
+  border-radius: 15px;
+  background: #ef4444;
+  color: white;
+  font-weight: 900;
+}
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 70px);
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.memory-card {
+  height: 70px;
+  border: 0;
+  border-radius: 10px;
+  background: #263456;
+  color: white;
+  font-size: 28px;
+}
+
+@media (max-width: 650px) {
+  .navbar {
+    padding: 10px 12px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: center;
+  }
+
+  nav button {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  .hero {
+    min-height: 520px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .btn.secondary {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .page {
+    padding: 35px 15px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="logo">Arcade<span>Hub</span></div>
+
+    <nav>
+      <button class="active" onclick="showPage('home', this)">Home</button>
+      <button onclick="showPage('games', this)">Games</button>
+      <button onclick="showPage('partners', this)">Partners</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- HOME -->
+<section id="home" class="page active">
+
+  <div class="hero">
+    <h1>Welcome to <span>ArcadeHub</span></h1>
+
+    <p>
+      Play browser games, discover new favorites,
+      and connect with gaming websites through ArcadeHub.
+    </p>
+
+    <div>
+      <button class="btn" onclick="showPage('games')">
+        🎮 Play Games
+      </button>
+
+      <button class="btn secondary" onclick="showPage('partners')">
+        🤝 Partner With Us
+      </button>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- GAMES -->
+<section id="games" class="page">
+
+  <h2>🎮 Games</h2>
+
+  <p class="sub">
+    Choose a game and start playing instantly.
+  </p>
+
+  <input
+    id="search"
+    class="search"
+    type="text"
+    placeholder="Search games..."
+    oninput="filterGames()"
+  >
+
+  <div id="gameList" class="games">
+
+    <div class="card" data-name="reaction rush reaction">
+      <div class="icon">⚡</div>
+      <h3>Reaction Rush</h3>
+      <p>
+        Test your reaction speed and click when the button turns green.
+      </p>
+      <button class="btn" onclick="startReaction()">Play</button>
+    </div>
+
+    <div class="card" data-name="click frenzy clicker">
+      <div class="icon">🖱️</div>
+      <h3>Click Frenzy</h3>
+      <p>
+        Get as many clicks as possible before the timer reaches zero.
+      </p>
+      <button class="btn" onclick="startClicker()">Play</button>
+    </div>
+
+    <div class="card" data-name="number guess guessing">
+      <div class="icon">🔢</div>
+      <h3>Number Guess</h3>
+      <p>
+        Guess the secret number between 1 and 100.
+      </p>
+      <button class="btn" onclick="startGuess()">Play</button>
+    </div>
+
+    <div class="card" data-name="memory match memory">
+      <div class="icon">🧠</div>
+      <h3>Memory Match</h3>
+      <p>
+        Match every pair of cards.
+      </p>
+      <button class="btn" onclick="startMemory()">Play</button>
+    </div>
+
+  </div>
+
+  <div id="gamebox" class="gamebox">
+    <h3>Select a game</h3>
+    <p>Your selected game will appear here.</p>
+  </div>
+
+</section>
+
+
+<!-- PARTNERS -->
+<section id="partners" class="page">
+
+  <h2>🤝 Partner With Us</h2>
+
+  <p class="sub">
+    Submit your website to the ArcadeHub partner directory.
+  </p>
+
+  <div class="form">
+
+    <h3>Partner Application</h3>
+
+    <p class="form-description">
+      Enter your website information below.
+      Your submission is saved locally in this browser.
+    </p>
+
+    <label for="siteName">Website Name</label>
+
+    <input
+      id="siteName"
+      type="text"
+      placeholder="My Gaming Site"
+    >
+
+    <label for="siteUrl">Website URL</label>
+
+    <input
+      id="siteUrl"
+      type="url"
+      placeholder="https://example.com"
+    >
+
+    <label for="siteDescription">Website Description</label>
+
+    <input
+      id="siteDescription"
+      type="text"
+      placeholder="A website about browser games"
+    >
+
+    <label for="contactEmail">Contact Email</label>
+
+    <input
+      id="contactEmail"
+      type="email"
+      placeholder="you@example.com"
+    >
+
+    <label class="checkbox">
+      <input id="partnerAgree" type="checkbox">
+      <span>I own or have permission to submit this website.</span>
+    </label>
+
+    <button class="btn" onclick="addPartner()">
+      Submit Partner Request
+    </button>
+
+    <div id="status" class="status"></div>
+
+  </div>
+
+  <div id="partnersList" class="partners"></div>
+
+</section>
+
+</main>
+
+
+<footer>
+  © 2026 ArcadeHub • Browser Gaming
+</footer>
+
+
+<script>
+
+/* -----------------------------
+   PAGE NAVIGATION
+----------------------------- */
+
+function showPage(id, button) {
+
+  document.querySelectorAll(".page").forEach(function(page) {
+    page.classList.remove("active");
+  });
+
+  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll("nav button").forEach(function(btn) {
+    btn.classList.remove("active");
+  });
+
+  if (button) {
+    button.classList.add("active");
+  }
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+/* -----------------------------
+   GAME SEARCH
+----------------------------- */
+
+function filterGames() {
+
+  const search =
+    document.getElementById("search").value.toLowerCase();
+
+  document.querySelectorAll("#gameList .card").forEach(function(card) {
+
+    const name = card.dataset.name.toLowerCase();
+
+    card.style.display =
+      name.includes(search) ? "block" : "none";
+
+  });
+}
+
+
+/* -----------------------------
+   GAME BOX
+----------------------------- */
+
+function gameBox(content) {
+  document.getElementById("gamebox").innerHTML = content;
+}
+
+
+/* -----------------------------
+   REACTION RUSH
+----------------------------- */
+
+function startReaction() {
+
+  gameBox(`
+    <h3>⚡ Reaction Rush</h3>
+    <p id="reactionText">Wait for the button...</p>
+
+    <button
+      id="reactionButton"
+      class="big-game-button"
+      style="background:#ef4444"
+    >
+      WAIT
+    </button>
+  `);
+
+  const button =
+    document.getElementById("reactionButton");
+
+  const text =
+    document.getElementById("reactionText");
+
+  let ready = false;
+  let startTime = 0;
+
+  const delay =
+    1000 + Math.random() * 3000;
+
+  setTimeout(function() {
+
+    ready = true;
+
+    startTime = performance.now();
+
+    button.textContent = "CLICK!";
+    button.style.background = "#22c55e";
+
+  }, delay);
+
+  button.onclick = function() {
+
+    if (!ready) {
+
+      text.textContent =
+        "❌ Too early! Try again.";
+
+      button.disabled = true;
+
+      return;
+    }
+
+    const time =
+      Math.round(performance.now() - startTime);
+
+    text.textContent =
+      "⚡ Your reaction time: " + time + " ms";
+
+    button.textContent = "Play Again";
+
+    button.onclick = startReaction;
+  };
+}
+
+
+/* -----------------------------
+   CLICK FRENZY
+----------------------------- */
+
+function startClicker() {
+
+  gameBox(`
+    <h3>🖱️ Click Frenzy</h3>
+
+    <p id="clickTimer">
+      Time: 10 seconds
+    </p>
+
+    <div id="clickScore" class="score">
+      0
+    </div>
+
+    <button id="clickGameButton" class="btn">
+      CLICK!
+    </button>
+  `);
+
+  let score = 0;
+  let time = 10;
+  let active = true;
+
+  const scoreElement =
+    document.getElementById("clickScore");
+
+  const timerElement =
+    document.getElementById("clickTimer");
+
+  const button =
+    document.getElementById("clickGameButton");
+
+  button.onclick = function() {
+
+    if (!active) return;
+
+    score++;
+
+    scoreElement.textContent = score;
+  };
+
+  const timer = setInterval(function() {
+
+    time--;
+
+    timerElement.textContent =
+      "Time: " + time + " seconds";
+
+    if (time <= 0) {
+
+      clearInterval(timer);
+
+      active = false;
+
+      button.disabled = true;
+
+      timerElement.textContent =
+        "🏁 Finished! Score: " + score;
+    }
+
+  }, 1000);
+}
+
+
+/* -----------------------------
+   NUMBER GUESS
+----------------------------- */
+
+let secretNumber = 0;
+let guessCount = 0;
+
+function startGuess() {
+
+  secretNumber =
+    Math.floor(Math.random() * 100) + 1;
+
+  guessCount = 0;
+
+  gameBox(`
+    <h3>🔢 Number Guess</h3>
+
+    <p>Guess a number between 1 and 100.</p>
+
+    <input
+      id="guessInput"
+      type="number"
+      min="1"
+      max="100"
+      placeholder="Enter your guess"
+      style="
+        padding:14px;
+        border-radius:10px;
+        border:1px solid #334264;
+        background:#10182c;
+        color:white;
+        margin:10px;
+      "
+    >
+
+    <button class="btn" onclick="guessNumber()">
+      Guess
+    </button>
+
+    <p id="guessMessage"></p>
+  `);
+}
+
+function guessNumber() {
+
+  const input =
+    document.getElementById("guessInput");
+
+  const message =
+    document.getElementById("guessMessage");
+
+  const guess =
+    Number(input.value);
+
+  if (!guess || guess < 1 || guess > 100) {
+
+    message.textContent =
+      "Enter a number from 1 to 100.";
+
+    return;
+  }
+
+  guessCount++;
+
+  if (guess === secretNumber) {
+
+    message.textContent =
+      "🎉 Correct! You got it in " +
+      guessCount +
+      " guesses!";
+
+  } else if (guess < secretNumber) {
+
+    message.textContent =
+      "⬆️ Too low!";
+
+  } else {
+
+    message.textContent =
+      "⬇️ Too high!";
+  }
+}
+
+
+/* -----------------------------
+   MEMORY MATCH
+----------------------------- */
+
+function startMemory() {
+
+  const symbols = [
+    "🍎","🍎",
+    "🚀","🚀",
+    "🎮","🎮",
+    "⭐","⭐"
+  ];
+
+  symbols.sort(function() {
+    return Math.random() - 0.5;
+  });
+
+  gameBox(`
+    <h3>🧠 Memory Match</h3>
+
+    <p>Find all four matching pairs.</p>
+
+    <div id="memoryGrid" class="memory-grid"></div>
+  `);
+
+  const grid =
+    document.getElementById("memoryGrid");
+
+  let firstCard = null;
+  let locked = false;
+  let matches = 0;
+
+  symbols.forEach(function(symbol) {
+
+    const card =
+      document.createElement("button");
+
+    card.className = "memory-card";
+    card.textContent = "❓";
+
+    card.onclick = function() {
+
+      if (
+        locked ||
+        card === firstCard ||
+        card.dataset.done
+      ) {
+        return;
+      }
+
+      card.textContent = symbol;
+
+      if (!firstCard) {
+
+        firstCard = card;
+
+        return;
+      }
+
+      locked = true;
+
+      if (firstCard.textContent === card.textContent) {
+
+        firstCard.dataset.done = "true";
+        card.dataset.done = "true";
+
+        matches++;
+
+        firstCard = null;
+        locked = false;
+
+        if (matches === 4) {
+
+          setTimeout(function() {
+
+            alert("🎉 You won Memory Match!");
+
+          }, 200);
+        }
+
+      } else {
+
+        setTimeout(function() {
+
+          firstCard.textContent = "❓";
+          card.textContent = "❓";
+
+          firstCard = null;
+          locked = false;
+
+        }, 700);
+      }
+    };
+
+    grid.appendChild(card);
+  });
+}
+
+
+/* -----------------------------
+   PARTNER FORM
+----------------------------- */
+
+function addPartner() {
+
+  const name =
+    document.getElementById("siteName").value.trim();
+
+  const url =
+    document.getElementById("siteUrl").value.trim();
+
+  const description =
+    document.getElementById("siteDescription").value.trim();
+
+  const email =
+    document.getElementById("contactEmail").value.trim();
+
+  const agree =
+    document.getElementById("partnerAgree").checked;
+
+  const status =
+    document.getElementById("status");
+
+
+  if (!name || !url || !description || !email) {
+
+    status.textContent =
+      "Please complete every field.";
+
+    return;
+  }
+
+
+  if (!agree) {
+
+    status.textContent =
+      "Please confirm that you have permission to submit this website.";
+
+    return;
+  }
+
+
+  try {
+
+    new URL(url);
+
+  } catch (error) {
+
+    status.textContent =
+      "Please enter a valid website URL.";
+
+    return;
+  }
+
+
+  const emailPattern =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailPattern.test(email)) {
+
+    status.textContent =
+      "Please enter a valid email address.";
+
+    return;
+  }
+
+
+  const partners =
+    JSON.parse(
+      localStorage.getItem("arcadeHubPartners") || "[]"
+    );
+
+
+  partners.push({
+
+    name: name,
+
+    url: url,
+
+    description: description,
+
+    email: email,
+
+    status: "Pending"
+
+  });
+
+
+  localStorage.setItem(
+    "arcadeHubPartners",
+    JSON.stringify(partners)
+  );
+
+
+  document.getElementById("siteName").value = "";
+  document.getElementById("siteUrl").value = "";
+  document.getElementById("siteDescription").value = "";
+  document.getElementById("contactEmail").value = "";
+  document.getElementById("partnerAgree").checked = false;
+
+
+  status.textContent =
+    "✓ Partner request submitted!";
+
+
+  renderPartners();
+}
+
+
+/* -----------------------------
+   DISPLAY PARTNERS
+----------------------------- */
+
+function escapeHTML(text) {
+
+  return text.replace(/[&<>"']/g, function(character) {
+
+    const entities = {
+
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+
+    };
+
+    return entities[character];
+
+  });
+}
+
+
+function renderPartners() {
+
+  const container =
+    document.getElementById("partnersList");
+
+  const partners =
+    JSON.parse(
+      localStorage.getItem("arcadeHubPartners") || "[]"
+    );
+
+
+  if (partners.length === 0) {
+
+    container.innerHTML = "";
+
+    return;
+  }
+
+
+  container.innerHTML =
+    "<h3>Partner Sites</h3>";
+
+
+  partners.forEach(function(partner) {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "partner";
+
+    div.innerHTML = `
+      <strong>
+        ${escapeHTML(partner.name)}
+      </strong>
+
+      <span class="pending">
+        • ${escapeHTML(partner.status)}
+      </span>
+
+      <br>
+
+      <span style="color:#94a3b8">
+        ${escapeHTML(partner.description)}
+      </span>
+
+      <br>
+
+      <a
+        href="${escapeHTML(partner.url)}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        ${escapeHTML(partner.url)}
+      </a>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+
+/* -----------------------------
+   START SITE
+----------------------------- */
+
+renderPartners();
+
+</script>
+
+</body>
+</html>
